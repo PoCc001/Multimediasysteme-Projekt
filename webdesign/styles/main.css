@@ -173,12 +173,6 @@ a {
   align-items: center;
 }
 
-#members__button:hover svg > path,
-#chat__button:hover svg,
-.nav__link:hover svg {
-  fill: #845695;
-}
-
 .nav__link svg {
   width: 0;
   height: 0;
