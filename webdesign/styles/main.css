@@ -55,7 +55,6 @@ a {
   top: 0;
   width: 100%;
   box-sizing: border-box;
-  border: #fff 1px;
   height: 10%;
   display: flex;
   justify-content: space-between;
@@ -138,7 +137,7 @@ a {
   font-weight: 500;
   border-radius: 0px;
   border: 2px solid white;
-  margin-left: 540px;
+  margin-left: 775px;
   margin-bottom: 30px;
   margin-top: -4%;
   cursor: pointer;
@@ -148,12 +147,12 @@ a {
   display:block;
   background-color: transparent;
   color: white;
-  padding: 8px 60px;
+  padding: 8px 80px;
   font-size: 16px;
   font-weight: 500;
   border-radius: 0px;
   border: 2px solid white;
-  margin-left: 315px;
+  margin-left: 515px;
   margin-bottom: 30px;
   margin-top: -4.8%;
   cursor: pointer;
@@ -161,6 +160,7 @@ a {
 
 #strm_title {
   text-align: center;
+  margin-left: 4%;
   font-size: 20px;
   margin-top: 2.5%;
 }
@@ -175,6 +175,11 @@ a {
 
 #main_btn:hover {
   background-color: #101F25;
+}
+
+#settings {
+  height: 42px;
+  margin-top: 12px;
 }
 
 .nav--list {
