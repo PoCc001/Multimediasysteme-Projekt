@@ -50,20 +50,6 @@ a {
   font-weight: 300;
 }
 
-.avatar__md {
-  height: 40px;
-  width: 40px;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-.avatar__sm {
-  height: 30px;
-  width: 30px;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
 #nav {
   position: fixed;
   top: 0;
@@ -133,9 +119,8 @@ a {
   border-color: #845695;
 }
 
-#create__room__btn {
+#main_btn {
   display:block;
-  
   padding: 8px 34px;
   font-size: 16px;
   font-weight: 500;
@@ -144,7 +129,7 @@ a {
   
 }
 
-#chat {
+#chat_btn {
   display:block;
   background-color: transparent;
   color: white;
@@ -153,17 +138,42 @@ a {
   font-weight: 500;
   border-radius: 0px;
   border: 2px solid white;
-  margin-left: 635px;
+  margin-left: 540px;
   margin-bottom: 30px;
   margin-top: -4%;
   cursor: pointer;
 }
 
-#chat:hover {
+#follow_btn {
+  display:block;
+  background-color: transparent;
+  color: white;
+  padding: 8px 60px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 0px;
+  border: 2px solid white;
+  margin-left: 315px;
+  margin-bottom: 30px;
+  margin-top: -4.8%;
+  cursor: pointer;
+}
+
+#strm_title {
+  text-align: center;
+  font-size: 20px;
+  margin-top: 2.5%;
+}
+
+#chat_btn:hover {
   background-color: #101F25;
 }
 
-#create__room__btn:hover {
+#follow_btn:hover {
+  background-color: green;
+}
+
+#main_btn:hover {
   background-color: #101F25;
 }
 
@@ -188,18 +198,18 @@ a {
     height: 1.5rem;
   }
   .nav__link,
-  #create__room__btn {
+  #main_btn {
     font-size: 0;
     border: none;
   }
 
-  #create__room__btn {
+  #main_btn {
     padding: 0;
     background-color: transparent;
     border-radius: 50%;
   }
 
-  #create__room__btn:hover {
+  #main_btn:hover {
     background-color: transparent;
   }
 }
