@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <title>Test Seite</title>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" href="style.css"/>
+    </head>
+
+    <style>
+        .chat {
+            font-style:oblique
+        }
+    </style>
+
+    <body>
+        <h1 class="chat">Chat-Fenster</h1>
+        <div class="chat" id="wholechat">
+            <div class="chat" id="chatbody">
+                Bestehender Input
+            </div>
+            <div class="chat" id="input">
+                <form>
+                    <label for="chatinput">Chat text:</label>
+                    <input id="chatinput" name="chatinput" type="text">
+                </form>
+            </div>
+            <div class="chat" id="submitbutton" onclick="submit()">
+                Submit
+            </div>
+        </div>
+
+        <script lang="JavaScript">
+            function submit() {
+                var message = null;
+            }
+
+            function incoming() {
+                // Demo message - should be replaced by a call to the server API.
+                return "Fake input";
+            }
+            
+            var chatBody = document.getElementById("chatbody");
+
+            function output(msg) {
+                chatBody.innerHTML += ("<p>" + msg + "</p>");
+            }
+            
+            for (let i = 0; i < 100; i++) {
+                output(incoming());
+            }
+
+        //    window.alert("Test");
+        </script>
+    </body>
+</html>

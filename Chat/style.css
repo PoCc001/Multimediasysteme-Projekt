@@ -1,0 +1,28 @@
+#wholechat {
+    background-color: lightgrey;
+    width: 500px;
+    height: 750px;
+}
+
+#chatbody {
+    background-color:#333333;
+    width: 85%;
+    height: 600px;
+    overflow-y: auto;
+    padding: 20px;
+    color: white;
+}
+
+#input {
+    width: 350px;
+    height: 50px;
+    overflow-y: auto;
+}
+
+#submitbutton {
+    width: 120px;
+    height: 40px;
+    font-size: 30px;
+    border-style: ridge;
+    border-width: 4px;
+}
