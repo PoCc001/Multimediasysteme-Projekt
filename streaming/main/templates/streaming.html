@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Stream</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='{% static "main.css" %}'>
+    <link rel='stylesheet' type='text/css' media='screen' href='{% static "omp.css" %}'>
+
+</head>
+<body>
+    <header id="nav">
+       <div class="nav--list">
+                <h3 id="logo">
+                    <!-- <img src="" alt="Site Logo"> -->
+                    <span>LOGO TITLE</span>
+                </h3>
+                
+       </div>
+       <p id="strm_title"> STREAM TITLE</p>
+
+       <div id="nav__links">
+        <a href="{% url 'settings' %}"><img id="settings" src="{% static 'images/gear.gif' %}"></a>
+        <a class="nav__link" id="main_btn" href="{% url 'index' %}">
+            EXIT
+           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ede0e0" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-5v5h-2v-5h-5v-2h5v-5h2v5h5v2z"/></svg>
+        </a>
+    </header>
+    <div class="player-wrapper">
+    <div id="player_id"></div>
+    <script src="https://cdn.jsdelivr.net/npm/ovenplayer/dist/ovenplayer.js"></script>
+    <script>
+        const player = OvenPlayer.create('player_id', {
+            sources: [
+                {
+                    label: 'label_for_webrtc',
+                    // Set the type to 'webrtc'
+                    type: 'webrtc',
+                    // Set the file to WebRTC Signaling URL with OvenMediaEngine 
+                    file: 'ws://ome_host:signaling_port/app/stream'
+                }
+            ]
+        });
+    </script>
+</div>
+<button type="button" id="chat_btn" href="">
+    OPEN CHAT
+</button>
+<button type="button" id="follow_btn" href="">
+    FOLLOW
+</button>
+</body>
+</html>
