@@ -32,16 +32,16 @@
              </div>
  
  
-            <form id="lobby__form">
- 
+            <form id="lobby__form" action="" method="post">
+                {% csrf_token %}
                  <div class="form__field__wrapper">
                      <label>Username</label>
-                     <input type="text" name="username" id="username" required placeholder="Enter your username or e-mail..." />
+                     <input {% if error %}style="border=1px solid red"{% endif %} type="text" name="username" id="username" required placeholder="Enter your username or e-mail..." />
                  </div>
  
                  <div class="form__field__wrapper">
                      <label>Password</label>
-                     <input type="password" name="password" id="password"  placeholder="Enter password..." />
+                     <input {% if error %}style="border=1px solid red"{% endif %} type="password" name="password" id="password"  placeholder="Enter password..." />
                  </div>
  
                  <div class="form__field__wrapper">

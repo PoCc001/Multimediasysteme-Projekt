@@ -31,8 +31,8 @@
                  <p>Register an account</p>
              </div>
  
-            <form id="lobby__form">
-
+            <form id="lobby__form" method="post">
+                {% csrf_token %}
                 <div class="form__field__wrapper">
                     <label>E-mail address</label>
                     <input type="text" name="email" id="email" required placeholder="Enter your e-mail address..." />
