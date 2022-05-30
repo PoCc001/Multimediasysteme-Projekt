@@ -1,0 +1,120 @@
+<!--{% load static %}-->
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <title>Streamchat</title>
+        <meta charset="UTF-8"/>
+    <!--    <link rel="stylesheet" href='{% static "style.css" %}'/> -->
+        <link rel="stylesheet" href="../../static/style.css"/>
+    </head>
+
+    <body>
+        <h1 class="chat">Chat-Fenster</h1>
+        <div class="chat" id="wholechat">
+            <div class="chat" id="chatbody">
+                <!-- Content comes from server received by the WebSocket -->
+            </div>
+            <div class="chat" id="input">
+                <form action="" onsubmit="submit()">
+                    <label for="chatinput">Chat text:</label>
+                    <input id="chatinput" name="chatinput" type="text">
+					<button>Submit</button>
+                </form>
+            </div>
+            <div class="chat" id="stylebuttons">
+                <button onclick="makeBold()"><b>F</b></button>
+                <button onclick="makeItalic()"><i>K</i></button>
+                <button onclick="makeUnderlined()"><span style="text-decoration: underline;">U</span></button>
+                <br />
+                <!-- Generate buttons for emojis via JavaScript -->
+            </div>
+        </div>
+
+        <script lang="JavaScript">
+            const emojis = ["128077", "128078", "128512", "128513", "128514", "128519", "128520",
+                            "128521", "128533", "128550", "9917", "127942"];
+
+            function utf8ToHTML(input) {
+                return "&#" + input + ";";
+            }
+            
+            var buttonsDiv = document.getElementById("stylebuttons");
+            for (let i = 0; i < emojis.length; i++) {
+                let emojiButton = "<button onclick=\"addEmoji(" + i + ")\">" + utf8ToHTML(emojis[i]) + "</button>";
+                buttonsDiv.innerHTML += emojiButton;
+            }
+
+            var inputField = document.getElementById("chatinput");
+
+            function addEmoji(index) {
+                if (index >= 0 && index < emojis.length) {
+                    inputField.value += utf8ToHTML(emojis[index]);
+                }
+            }
+
+            var bold = false;
+            var italic = false;
+            var underlined = false;
+
+            function makeBold() {
+                if (bold) {
+                    bold = false;
+                } else {
+                    bold = true;
+                }
+            }
+
+            function makeItalic() {
+                if (italic) {
+                    italic = false;
+                } else {
+                    italic = true;
+                }
+            }
+
+            function makeUnderlined() {
+                if (underlined) {
+                    underlined = false;
+                } else {
+                    underlined = true;
+                }
+            }
+
+			const wsURL = "ws://localhost:8000/ws";		// default --> must be changed later!
+			const wsPort = null;	// default --> should be changed later!
+			var websocket = new WebSocket(wsURL, wsPort);
+			var chatbody = document.getElementById("chatbody");
+			websocket.onmessage = function(event) {
+				chatbody.innerHTML += ("<p>" + event.data + "</p>");
+			};
+			
+			function sendMessage(event) {
+				var input = document.getElementById("chatinput");
+                var inputText = input.value;
+                if (bold) {
+                    input = "<b>" + input + "</b>";
+                    bold = false;
+                }
+
+                if (italic) {
+                    input = "<i>" + input + "</i>";
+                    italic = false;
+                }
+
+                if (underlined) {
+                    input = "<span style=\"text-decoration: underline;\">" + input + "</span>";
+                    underlined = false;
+                }
+
+				websocket.send(inputText);
+				input.value = '';
+				event.preventDefault();
+			}
+
+
+            websocket.onclose = function(event) {
+                chatbody.innerHTML += ("<p style=\"color:red, font-size: 25px\">Chat Socket wurde unerwartet geschlossen!</p>");
+            }
+        </script>
+    </body>
+</html>

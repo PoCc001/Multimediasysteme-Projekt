@@ -45,6 +45,5 @@ def streaming(request):
 def settings(request):
     return render(request, "settings.html")
 
-@login_required(login_url="/login")
-def chat(request):
-    return render(request, "chat.html")
+
+
