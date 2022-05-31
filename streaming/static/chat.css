@@ -1,8 +1,10 @@
+/* headline "Chat..." */
 #text {
     font-size: 30px;
     margin-left: 2%;
 }
 
+/* div in which all chat messages will appear */
 #chatbody {
     border: 1px white solid;
     background-color: #101F25;
@@ -14,6 +16,7 @@
     margin-right: 2%;
 }
 
+/* input div which contains the input form */
 #input {
     width: 95%;
     height: 60px;
@@ -21,6 +24,7 @@
     margin-left: 2%;
 }
 
+/* The input field itself */
 #chatinput {
     width: 40%;
     border-radius: 0%;
@@ -33,15 +37,18 @@
     width: 100px;
 }
 
+/* div which contains all buttons for emojis and styling */
 #stylebuttons {
     margin-left: 2%;
 }
 
+/* the buttons themselves */
 #buttons {
     margin-right: 7px;
     width: 50px;
 }
 
+/* Animation for the headline */
 h1 {
     border-right: solid 3px rgb(255, 255, 255);
     white-space: nowrap;
