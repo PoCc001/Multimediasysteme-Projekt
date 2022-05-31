@@ -25,13 +25,15 @@
                 <button onclick="makeItalic()"><i>K</i></button>
                 <button onclick="makeUnderlined()"><span style="text-decoration: underline;">U</span></button>
                 <br />
-                <!-- Generate buttons for emojis via JavaScript -->
+                <!-- Generate buttons for emojis and colors via JavaScript -->
             </div>
         </div>
 
         <script lang="JavaScript">
             const emojis = ["128077", "128078", "128512", "128513", "128514", "128519", "128520",
                             "128521", "128533", "128550", "9917", "127942"];
+
+            const colors = ["black", "blue", "green", "red", "yellow", "white"];
 
             function utf8ToHTML(input) {
                 return "&#" + input + ";";
@@ -41,6 +43,23 @@
             for (let i = 0; i < emojis.length; i++) {
                 let emojiButton = "<button onclick=\"addEmoji(" + i + ")\">" + utf8ToHTML(emojis[i]) + "</button>";
                 buttonsDiv.innerHTML += emojiButton;
+            }
+
+            buttonsDiv.innerHTML += "<br />";
+            var blackSquare = utf8ToHTML("9632"); // UTF-8 code for black square
+
+            for (let i = 0; i < colors.length; i++) {
+                let iColor = colors[i];
+                let colorButton = "<button onclick=\"setColor(" + i + ")\"><span style=\"color: " + iColor + "\">" + blackSquare + "</span></button>";
+                buttonsDiv.innerHTML += colorButton;
+            }
+
+            var currColor = colors[0];
+
+            function setColor(index) {
+                if (index >= 0 && index < color.length) {
+                    currColor = colors[index];
+                }
             }
 
             var inputField = document.getElementById("chatinput");
@@ -79,7 +98,7 @@
                 }
             }
 
-			const wsURL = "ws://" + window.location.host + "/ws/";		// default --> must be changed later!
+			const wsURL = "ws://" + window.location.host + "/";
 			const wsPort = 8000;
 			var websocket = new WebSocket(wsURL, wsPort);
 			var chatbody = document.getElementById("chatbody");
@@ -105,6 +124,9 @@
                     underlined = false;
                 }
 
+                input = "<span style=\"color: " + currColor + "\">" + input + "</span>";
+                currColor = colors[0];
+
 				websocket.send(inputText);
 				input.value = '';
 				event.preventDefault();
@@ -112,7 +134,7 @@
 
 
             websocket.onclose = function(event) {
-                chatbody.innerHTML += ("<p style=\"color:red\">Verbindung zum Chat wurde unterbrochen!</p>");
+                chatbody.innerHTML += ("<p style=\"color:red; font-size:20px\">Verbindung zum Chat wurde unterbrochen!</p>");
             }
         </script>
     </body>
