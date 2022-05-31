@@ -4,6 +4,7 @@
     <head>
         <title>Streamchat</title>
         <meta charset="UTF-8"/>
+        <!-- Server automatically correctly links the CSS-files from streaming/static/. -->
         <link rel="stylesheet" href='{% static "chat.css" %}'/>
 	<link rel="stylesheet" href='{% static "main.css" %}'/>
     </head>
@@ -17,40 +18,40 @@
             <div class="chat" id="input">
                 <form action="" onsubmit="sendMessage(event)">
                     <input name="color" type="color" id="color" value="#FFFFFF">
+                    <!-- Input field -->
                     <input id="chatinput" name="chatinput" type="text" placeholder="enter text to chat... use the left button to select text color">
 					<button id="submit_button">Send</button>
                 </form>
             </div>
             <div class="chat" id="stylebuttons">
-                <button id="buttons" onclick="makeBold()"><b>B</b></button>
-                <button id="buttons" onclick="makeItalic()"><i>I</i></button>
-                <button id="buttons" onclick="makeUnderlined()"><span style="text-decoration: underline;">U</span></button>
+                <button id="buttons" onclick="makeBold()"><b>B</b></button> <!-- Button to make text bold -->
+                <button id="buttons" onclick="makeItalic()"><i>I</i></button> <!-- Button to make text italic -->
+                <button id="buttons" onclick="makeUnderlined()"><span style="text-decoration: underline;">U</span></button> <!-- Button to make text underlined -->
                 <br />
-                <!-- Generate buttons for emojis and colors via JavaScript -->
+                <!-- Generate buttons for emojis via JavaScript -->
             </div>
         </div>
 
         <script lang="JavaScript">
+            // UTF-8 Codes of emojis that can be used in chat
             const emojis = ["128077", "128078", "128512", "128513", "128514", "128519", "128520",
                             "128521", "128533", "128550", "9917", "127942"];
-
-            const colors = ["white", "blue", "green", "red", "yellow", "black"];
-
+            
+            // takes the UTF-8 codes of emojis and wraps HTML code around them to make them appear as emojis in HTML code
             function utf8ToHTML(input) {
                 return "&#" + input + ";";
             }
             
+            // dynamically add one button per emoji in the emoji-array
             var buttonsDiv = document.getElementById("stylebuttons");
             for (let i = 0; i < emojis.length; i++) {
                 let emojiButton = "<button onclick=\"addEmoji(" + i + ")\" id='buttons'>" + utf8ToHTML(emojis[i]) + "</button>";
                 buttonsDiv.innerHTML += emojiButton;
             }
 
-            buttonsDiv.innerHTML += "<br />";
-            var blackSquare = utf8ToHTML("9632"); // UTF-8 code for black square
-
             var inputField = document.getElementById("chatinput");
-
+            
+            // When an emoji button is clicked its HTML code is pasted into the input field
             function addEmoji(index) {
                 if (index >= 0 && index < emojis.length) {
                     inputField.value += utf8ToHTML(emojis[index]);
@@ -85,6 +86,7 @@
                 }
             }
 
+            // create WebSocket; we don't even have to know the domain/IP address of the server - window.location.host has that information
 			const wsURL = "ws://" + window.location.host + "/ws/test/";
 			const wsPort = 8000;
 			var websocket = new WebSocket(wsURL, wsPort);
@@ -92,6 +94,7 @@
 
             // ws handlers
 			websocket.onmessage = function(event) {
+                // use JSON to apply styles (color and bold, italic and underlined)
                 let dataObj = JSON.parse(event.data)
 
                 let fontWeight = "normal"
@@ -107,12 +110,16 @@
                 if (dataObj.underlined){
                     border = `1px solid ${dataObj.color}`
                 }
-
+                
+                // write styled message on screen
 				chatbody.innerHTML += (`<span style="font-weight: bolder">${dataObj.user}:</span> <span style="color:${dataObj.color}; font-weight:${fontWeight}; font-style:${fontStyle}; border-bottom: ${border}">${dataObj.message}</span> <br/>`);
 			};
+
+            var currColor = "black";
 			
+            // send message via WebSocket to the server
 			function sendMessage(event) {
-                console.log("sending", bold, italic, underlined)
+            //    console.log("sending", bold, italic, underlined)
                 event.preventDefault()
 				var input = document.getElementById("chatinput");
                 var inputText = input.value;
@@ -130,7 +137,7 @@
 				event.preventDefault();
 			}
 
-
+            // Connection to host server might get lost. In that case print a big, red error message.
             websocket.onclose = function(event) {
                 chatbody.innerHTML += ("<p style=\"color:red; font-size:20px\">Verbindung zum Chat wurde unterbrochen!</p>");
             }
