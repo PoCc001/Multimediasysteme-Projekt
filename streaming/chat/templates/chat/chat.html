@@ -15,8 +15,9 @@
                 <!-- Content comes from server received by the WebSocket -->
             </div>
             <div class="chat" id="input">
-                <form action="" onsubmit="submit()">
-                    <input id="chatinput" name="chatinput" type="text">
+                <form action="" onsubmit="sendMessage(event)">
+                    <input name="color" type="color" id="color" value="#FFFFFF">
+                    <input id="chatinput" name="chatinput" type="text" placeholder="enter text to chat... use the left button to select text color">
 					<button id="submit_button">Send</button>
                 </form>
             </div>
@@ -33,7 +34,7 @@
             const emojis = ["128077", "128078", "128512", "128513", "128514", "128519", "128520",
                             "128521", "128533", "128550", "9917", "127942"];
 
-            const colors = ["black", "blue", "green", "red", "yellow", "white"];
+            const colors = ["white", "blue", "green", "red", "yellow", "black"];
 
             function utf8ToHTML(input) {
                 return "&#" + input + ";";
@@ -47,20 +48,6 @@
 
             buttonsDiv.innerHTML += "<br />";
             var blackSquare = utf8ToHTML("9632"); // UTF-8 code for black square
-
-            for (let i = 0; i < colors.length; i++) {
-                let iColor = colors[i];
-                let colorButton = "<button onclick=\"setColor(" + i + ")\" id='buttons'><span style=\"color: " + iColor + "\">" + blackSquare + "</span></button>";
-                buttonsDiv.innerHTML += colorButton;
-            }
-
-            var currColor = colors[0];
-
-            function setColor(index) {
-                if (index >= 0 && index < color.length) {
-                    currColor = colors[index];
-                }
-            }
 
             var inputField = document.getElementById("chatinput");
 
@@ -98,36 +85,47 @@
                 }
             }
 
-			const wsURL = "ws://" + window.location.host + "/";
+			const wsURL = "ws://" + window.location.host + "/ws/test/";
 			const wsPort = 8000;
 			var websocket = new WebSocket(wsURL, wsPort);
 			var chatbody = document.getElementById("chatbody");
+
+            // ws handlers
 			websocket.onmessage = function(event) {
-				chatbody.innerHTML += ("<p>" + event.data + "</p>");
+                let dataObj = JSON.parse(event.data)
+
+                let fontWeight = "normal"
+                let fontStyle = "normal"
+                let border = "none"
+
+                if (dataObj.bold){
+                    fontWeight = "bolder"
+                }
+                if (dataObj.italic){
+                    fontStyle = "italic"
+                }
+                if (dataObj.underlined){
+                    border = `1px solid ${dataObj.color}`
+                }
+
+				chatbody.innerHTML += (`<span style="font-weight: bolder">${dataObj.user}:</span> <span style="color:${dataObj.color}; font-weight:${fontWeight}; font-style:${fontStyle}; border-bottom: ${border}">${dataObj.message}</span> <br/>`);
 			};
 			
 			function sendMessage(event) {
+                console.log("sending", bold, italic, underlined)
+                event.preventDefault()
 				var input = document.getElementById("chatinput");
                 var inputText = input.value;
-                if (bold) {
-                    input = "<b>" + input + "</b>";
-                    bold = false;
+                currColor = document.getElementById("color").value;
+
+                const data = {
+                    message: inputText,
+                    bold: bold,
+                    italic: italic,
+                    underlined: underlined,
+                    color: currColor
                 }
-
-                if (italic) {
-                    input = "<i>" + input + "</i>";
-                    italic = false;
-                }
-
-                if (underlined) {
-                    input = "<span style=\"text-decoration: underline;\">" + input + "</span>";
-                    underlined = false;
-                }
-
-                input = "<span style=\"color: " + currColor + "\">" + input + "</span>";
-                currColor = colors[0];
-
-				websocket.send(inputText);
+				websocket.send(JSON.stringify(data));
 				input.value = '';
 				event.preventDefault();
 			}
