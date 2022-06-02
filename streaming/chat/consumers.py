@@ -20,11 +20,16 @@ class ChatConsumer(WebsocketConsumer):
         text_data_json = json.loads(text_data)
         print(text_data_json)
         message = text_data_json['message']
+        user = self.scope['user'].get_username(),
+
+        if user == None or user == "":
+            user = "Anonymous"
+
 
         response = {
             'type': 'chat_message',
             'message': message,
-            'user': self.scope['user'].get_username(),
+            'user': user,
             'bold': text_data_json['bold'],
             'italic': text_data_json['italic'],
             'underlined': text_data_json['underlined'],

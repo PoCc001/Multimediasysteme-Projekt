@@ -13,6 +13,7 @@ def login(request):
         password = request.POST.get("password")
         user = authenticate(username=username, password=password)
         if user is not None:
+            print("logging user in")
             login(request)
             return redirect("/streaming")
         else:
